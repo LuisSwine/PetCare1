@@ -1,0 +1,40 @@
+<div class="container-fluid bg-dark px-0">
+    <div class="row gx-0">
+        <div class="col-lg-3 bg-dark d-none d-lg-block">
+            <a href="/dashboard" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
+                <h1 class="m-0 text-primary text-uppercase">PetCare</h1>
+            </a>
+        </div>
+        <div class="col-lg-9">
+            <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
+                <a href="/dashboard" class="navbar-brand d-block d-lg-none">
+                    <h1 class="m-0 text-primary text-uppercase">PetCare</h1>
+                </a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav mr-auto py-0">
+                        <a href="/dashboard" class="nav-item nav-link <% if(active == 0){%> active <% } %>">Inicio</a>
+                        <% if(usuario.tipo_usuario == 3){%>
+                            <a href="/micuentapo?usuario=<%= usuario.id %>" class="nav-item nav-link <% if(active == 1){%> active <% } %>">Mi Cuenta</a>
+                            <a href="/mismascotas?usuario=<%= usuario.id %>" class="nav-item nav-link <% if(active == 2){%> active <% } %>">Mis Mascotas</a>
+                            <a href="/veterinarios" class="nav-item nav-link <% if(active == 3){%> active <% } %>">Veterinarios</a>
+                        <%}else if(usuario.tipo_usuario == 2){%>
+                            <a href="/micuentavet?usuario=<%= usuario.id %>" class="nav-item nav-link <% if(active == 1){%> active <% } %>">Mi Cuenta</a>
+                        <%}else if(usuario.tipo_usuario == 1){%>
+                            <a href="/petowners" class="nav-item nav-link <% if(active == 5){%> active <% } %>">Propietarios</a>
+                            <a href="/adminveterinarios" class="nav-item nav-link <% if(active == 6){%> active <% } %>">Veterinarios</a>
+                            <a href="/admincomentarios" class="nav-item nav-link <% if(active == 7){%> active <% } %>">Comentarios</a>
+                        <% } %>    
+                        <a href="/clinicas" class="nav-item nav-link <% if(active == 4){%> active <% } %>">Clinicas</a>
+                        <a href="/logout" class="nav-item nav-link">Cerrar Sesion</a>
+                    </div>
+                    <% if(usuario.tipo_usuario == 3){%>
+                        <a href="/agendarcita?usuario=<%= usuario.id %>" class="btn btn-info rounded-0 py-4 px-md-5 d-none d-lg-block">Agendar Cita<i class="fa fa-arrow-right ms-3"></i></a>
+                    <%} %> 
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>

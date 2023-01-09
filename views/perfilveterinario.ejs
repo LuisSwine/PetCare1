@@ -1,0 +1,162 @@
+<%- include('partials/init-doc.ejs', {tituloPagina: 'Perfil de Veterinario'}) %> 
+
+<body>
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <%- include('partials/spinner.ejs') %> 
+        <!-- Spinner End -->
+
+        <!-- Header Start -->
+        <%- include('partials/main-header.ejs', {active: 3, usuario: usuario}) %> 
+        <!-- Header End -->
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="col-lg-12 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="rounded shadow overflow-hidden">
+                        <div class="position-relative">
+                            <img class="img-fluid" src="img/medico.png" alt="Imagen de Médico">
+                            <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                            </div>
+                        </div>
+                        <div class="text-center p-4 mt-3">
+                            <h5 class="fw-bold mb-0 text-info"><u><%= veterinario.nombre %> <%= veterinario.apellido %></u></h5>
+                            <h6># Cedula: <%= veterinario.cedula %></h6>
+                            <h6><i class="fa fa-mail-bulk"></i> Correo: <u><%= veterinario.correo %></u></h6>
+                            <h6><i class="fa fa-phone"></i> Celular: <u><%= veterinario.celular %></u></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-title">
+                            <h4><%= clinica[0].nombre %></h4>
+                            <% for(i = 0; i < parseInt(clinica[0].valoracion); i++){%>
+                                <small class="fa fa-star text-warning"></small>
+                            <% } %>
+                            <% if((clinica[0].valoracion - parseInt(clinica[0].valoracion)) > 0){%>
+                                <small class="fa fa-star-half text-warning"></small> 
+                            <%} %> 
+                        </div>
+                        <div class="card-body">
+                            <ul class="timeline">
+                                <% if(clinica[0].pagina != null){ %> 
+                                    <li style="cursor: pointer;" onclick="window.open('<%= clinica[0].pagina %>', '_blank')">
+                                        <div class="timeline-badge primary"><i class="fa fa-link"></i></div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h5 class="timeline-title">Pagina Web</h5>
+                                            </div>
+                                            <div class="timeline-body" >
+                                                <p>Visitanos en nuestro sitio web</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                <% } %>
+                                <li>
+                                    <div class="timeline-badge primary"><i class="fa fa-home"></i></div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <h5 class="timeline-title">Visitas a Domicilio</h5>
+                                        </div>
+                                        <div class="timeline-body" >
+                                            <p><% if(clinica[0].visita_domicilio == 0){%>No<%}else{%>Si<%} %> hacemos visitas a domicilio</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <% let ruta = `https://www.google.com.mx/maps/search/${clinica[0].calle} ${clinica[0].exterior}, ${clinica[0].colonia}, ${clinica[0].cp}, ${clinica[0].municipio}, ${clinica[0].estado}` %>
+                                <li style="cursor: pointer;" onclick="window.open('<%= ruta %>', '_blank')">
+                                    <div class="timeline-badge primary"><i class="fa fa-map"></i></div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <h5 class="timeline-title">Localizanos</h5>
+                                        </div>
+                                        <div class="timeline-body" >
+                                            <p><%= clinica[0].calle %> <%= clinica[0].exterior %>-<%= clinica[0].interior %>, <%= clinica[0].colonia %>, <%= clinica[0].cp %>, <%= clinica[0].municipio %>, <%= clinica[0].estado %></p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /# card -->
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="col-lg-12">
+                    <div class="card testimonial my-5 py-5 bg-dark wow zoomIn">
+                        <div class="testimonial-widget-one">
+                            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                                <h6 class="section-title text-center text-primary text-uppercase">Comentarios de la comunidad</h6>
+                                <h1 class="mb-5">
+                                    <% for(i = 0; i < parseInt(veterinario.valoracion); i++){%>
+                                        <small class="fa fa-star text-warning"></small>
+                                    <% } %>
+                                    <% if((veterinario.valoracion - parseInt(veterinario.valoracion)) > 0){%>
+                                        <small class="fa fa-star-half text-warning"></small> 
+                                    <%} %> 
+                                </h1>
+                            </div>
+                            <div class="owl-carousel owl-theme bg-info text-dark">
+                                <% comentarios.forEach((comentario)=>{%>
+                                <div class="item">
+                                    <div class="testimonial-content">
+                                        <div class="testimonial-text">
+                                            <i class="fa fa-quote-left"></i> <%= comentario.titulo %>  <i class="fa fa-quote-right"></i>
+                                        </div>
+                                        <img class="testimonial-author-img" src="images/avatar/1.jpg" alt="" />
+                                        <div class="testimonial-author"> <%= comentario.nombre_usuario %>  <%= comentario.apellido_usuario %> </div>
+                                        <div class="testimonial-author-position"> <%= comentario.mensaje %>  </div>
+                                    </div>
+                                </div>
+                                <%}) %> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" data-wow-delay="0.1s">
+                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                        <h6 class="section-title text-center text-primary text-uppercase">Trabaja en</h6>
+                    </div>
+                    <div id="map" style="height: 360px;">
+                        <% if(clinica[0].id){%>
+                            <script>
+                                let lat = parseFloat("<%= clinica[0].latitud %>")
+                                let lon = parseFloat("<%= clinica[0].longitud %>")
+                                var map = L.map('map').setView([lat, lon], 18);
+                                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    maxZoom: 19,
+                                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                                }).addTo(map);
+                                var marker = L.marker([lat, lon]).addTo(map);
+                                var popup = L.popup()
+                                    .setLatLng([lat, lon])
+                                    .setContent("<%= clinica[0].calle %> <%= clinica[0].exterior %>-<%= clinica[0].interior %>, <%= clinica[0].colonia %>, <%= clinica[0].cp %>, <%= clinica[0].municipio %>, <%= clinica[0].estado %>")
+                                    .openOn(map);
+                            </script>
+                        <%} %> 
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+
+        <!-- Footer Start -->
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">PetCare</a>, Todos los derechos reservados. 
+					<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+					Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                    <br>Distributed By: <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+    <%- include('partials/linksjs.ejs') %> 
+    <%- include('partials/cierrebody.ejs') %> 

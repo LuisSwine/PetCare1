@@ -1,0 +1,279 @@
+<%- include('partials/init-doc.ejs', {tituloPagina: 'Perfil de Clinica'}) %> 
+
+<body>
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <%- include('partials/spinner.ejs') %> 
+        <!-- Spinner End -->
+
+        <!-- Header Start -->
+        <%- include('partials/main-header.ejs', {active: 4, usuario: usuario}) %> 
+        <!-- Header End -->
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="col-lg-12 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="rounded shadow overflow-hidden">
+                        <div class="position-relative">
+                            <img class="img-fluid" src="img/hospital.png" alt="">
+                            <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                            </div>
+                        </div>
+                        <div class="text-center p-4 mt-3">
+                            <h5 class="fw-bold mb-0 text-info"><u><%= clinica[0].nombre %></u></h5>
+                            <h6><%= clinica[0].telefono %></h6>
+                            <p>
+                                <% for(i = 0; i < parseInt(clinica[0].valoracion); i++){%>
+                                    <small class="fa fa-star text-warning"></small>
+                                <% } %>
+                                <% if((clinica[0].valoracion - parseInt(clinica[0].valoracion)) > 0){%>
+                                    <small class="fa fa-star-half text-warning"></small> 
+                                <%} %> 
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-title">
+                            <h4>Detalles</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="timeline">
+                                <% if(clinica[0].pagina != null){ %> 
+                                    <li style="cursor: pointer;" onclick="window.open('<%= clinica[0].pagina %>', '_blank')">
+                                        <div class="timeline-badge primary"><i class="fa fa-link"></i></div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h5 class="timeline-title">Pagina Web</h5>
+                                            </div>
+                                            <div class="timeline-body" >
+                                                <p>Visitanos en nuestro sitio web</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                <% } %>
+                                <li>
+                                    <div class="timeline-badge primary"><i class="fa fa-home"></i></div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <h5 class="timeline-title">Visitas a Domicilio</h5>
+                                        </div>
+                                        <div class="timeline-body" >
+                                            <p><% if(clinica[0].visita_domicilio == 0){%>No<%}else{%>Si<%} %> hacemos visitas a domicilio</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <% let ruta = `https://www.google.com.mx/maps/search/${clinica[0].calle} ${clinica[0].exterior}, ${clinica[0].colonia}, ${clinica[0].cp}, ${clinica[0].municipio}, ${clinica[0].estado}` %>
+                                <li style="cursor: pointer;" onclick="window.open('<%= ruta %>', '_blank')">
+                                    <div class="timeline-badge primary"><i class="fa fa-map"></i></div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <h5 class="timeline-title">Localizanos</h5>
+                                        </div>
+                                        <div class="timeline-body" >
+                                            <p><%= clinica[0].calle %> <%= clinica[0].exterior %>-<%= clinica[0].interior %>, <%= clinica[0].colonia %>, <%= clinica[0].cp %>, <%= clinica[0].municipio %>, <%= clinica[0].estado %></p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /# card -->
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-title">
+                        <h4>Veterinarios</h4>
+                    </div>
+                    <div class="bootstrap-data-table-panel">
+                        <div class="table-responsive">
+                            <table id="row-select" class="display table table-borderd table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Cedula</th>
+                                        <th>Correo</th>
+                                        <th>Celular</th>
+                                        <% if(usuario.tipo_usuario == 3){%><th>Opciones</th><%} %> 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% veterinarios.forEach((veterinario)=>{%>
+                                    <tr>
+                                        <td style="cursor: pointer" onclick="window.open('/perfilveterinario?veterinario=<%= veterinario.id %>', '_self')"><%= veterinario.nombre %> <%= veterinario.apellido %></td>
+                                        <td><%= veterinario.cedula %></td>
+                                        <td><%= veterinario.correo %></td>
+                                        <td><%= veterinario.celular %></td>
+                                        <% if(usuario.tipo_usuario == 3){%>
+                                        <td>
+                                            <div class="button-list">
+                                                <div class="btn-group btn-group-justified">
+                                                    <a href="/agendarcita?usuario=<%= usuario.id %>&clinica=<%= clinica[0].id %>&veterinario=<%= veterinario.id %>" class="btn btn-warning btn-sm" target="_self" title="Agendar una Cita"><i class="fa fa-calendar"></i></a>
+                                                    <a href="/addcomment?veterinario=<%= veterinario.id %>" class="btn btn-info btn-sm" target="_self" title="Dejar un comentario"><i class="fa fa-comment"></i></a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <%} %> 
+                                    </tr>    
+                                    <%}) %> 
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Cedula</th>
+                                        <th>Correo</th>
+                                        <th>Celular</th>
+                                        <% if(usuario.tipo_usuario == 3){%><th>Opciones</th><%} %> 
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" data-wow-delay="0.1s">
+                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                        <h6 class="section-title text-center text-info text-uppercase">Encuentra aqui</h6>
+                    </div>
+                    <div id="map" style="height: 360px;">
+                        <% if(clinica[0].id){%>
+                            <script>
+                                let lat = parseFloat("<%= clinica[0].latitud %>")
+                                let lon = parseFloat("<%= clinica[0].longitud %>")
+                                var map = L.map('map').setView([lat, lon], 18);
+                                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    maxZoom: 19,
+                                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                                }).addTo(map);
+                                var marker = L.marker([lat, lon]).addTo(map);
+                                var popup = L.popup()
+                                    .setLatLng([lat, lon])
+                                    .setContent("<%= clinica[0].calle %> <%= clinica[0].exterior %>-<%= clinica[0].interior %>, <%= clinica[0].colonia %>, <%= clinica[0].cp %>, <%= clinica[0].municipio %>, <%= clinica[0].estado %>")
+                                    .openOn(map);
+                            </script>
+                        <%} %> 
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+
+        <!-- Footer Start -->
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">PetCare</a>, Todos los derechos reservados. 
+					<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+					Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                    <br>Distributed By: <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+    
+    <script>
+        function editarNombre(actualNombre, actualApellido, folio, tipo){
+            Swal.fire({
+                title: 'EDITAR NOMBRE Y APELLIDO DEL USUARIO',
+                text: 'Ingrese los campos requeridos',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Actualizar',
+                html: 
+                    `<input type="text" value="${actualNombre}" id="nombre" class="swal2-input">`+
+                    `<input type="text" value="${actualApellido}" id="apellido" class="swal2-input">`,
+                focusConfirm: false
+            }).then((result)=>{
+                if(result.isConfirmed){
+                    const nombre = document.getElementById('nombre').value;
+                    const apellido = document.getElementById('apellido').value;
+                    const ruta = `/actualizarNombreApellidoUsuario?id=${folio}&tipo=${tipo}&nombre=${nombre}&apellido=${apellido}`
+                    window.location = ruta
+                }
+            })
+        }
+        function cambiarCorreo(actual,folio, tipo){
+            Swal.fire({
+                title: 'CAMBIAR CORREO DE CONTACTO',
+                input: 'email',
+                icon: 'question',
+                inputValue: actual,
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Tienes que escribir algo'
+                    }else{
+                        const ruta = `/cambiarCorreoUsuario?id=${folio}&tipo=${tipo}&correo=${value}`
+                        window.location = ruta
+                    }
+                }
+            })
+        }
+        function cambiarCelular(actual,folio, tipo){
+            Swal.fire({
+                title: 'CAMBIAR CELULAR DE CONTACTO',
+                input: 'text',
+                icon: 'question',
+                inputValue: actual,
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Tienes que escribir algo'
+                    }else{
+                        const ruta = `/cambiarCelularUsuario?id=${folio}&tipo=${tipo}&celular=${value}`
+                        window.location = ruta
+                    }
+                }
+            })
+        }
+        function definirCedula(actual,folio){
+            Swal.fire({
+                title: 'DEFINIR CEDULA PROFESIONAL',
+                input: 'text',
+                icon: 'question',
+                inputValue: actual,
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Tienes que escribir algo'
+                    }else{
+                        const ruta = `/definirCedulaVet?id=${folio}&cedula=${value}`
+                        window.location = ruta
+                    }
+                }
+            })
+        }
+        function cambiarClinica(veterinario, objeto){
+            let clinicas = JSON.parse(decodeURIComponent(objeto))
+            let opciones = ''
+            clinicas.forEach((clinica)=>{
+                opciones = opciones + `<option value="${clinica.id}">${clinica.nombre}</option>`
+            })
+            Swal.fire({
+                title: 'Definir Clinica en la que labora',
+                text: 'Seleccione la Clinica',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Seleccionar',
+                html: 
+                    '<select id="clinica" name="clinica">'+
+                    '<option value="0" selected disabled>--Seleccione--</option>'+ opciones +
+                    '</select>',
+                focusConfirm: false
+            }).then((result)=>{
+                if(result.isConfirmed){
+                    const clinica = document.getElementById('clinica').value;
+                    const ruta = `/cambiarclinica?veterinario=${veterinario}&clinica=${clinica}`
+                    window.location = ruta
+                }
+            })
+        }
+    </script>
+    <%- include('partials/linksjs.ejs') %> 
+    <%- include('partials/cierrebody.ejs') %> 

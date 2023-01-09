@@ -1,0 +1,156 @@
+<%- include('partials/init-doc.ejs', {tituloPagina: 'Nueva Clinica'}) %> 
+
+<body>
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <%- include('partials/spinner.ejs') %> 
+        <!-- Spinner End -->
+
+        <!-- Header Start -->
+        <%- include('partials/main-header.ejs', {active: 4, usuario: usuario}) %> 
+        <!-- Header End -->
+
+        <!-- Contact Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title text-center text-dark text-uppercase">Sugerir Nueva Clinica</h6>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-12">
+                        <div class="wow fadeInUp" data-wow-delay="0.2s">
+                            <form id="sugerirClinica" action="/sugerirclinica" method="post">
+                                <div class="row g-3">
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="usuario" name="usuario" value="<%= usuario.id %>" hidden>
+                                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre de la Clinica" required>
+                                            <label for="nombre">Nombre de la Clinica</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="url" class="form-control" id="pagina" name="pagina" placeholder="Ingrese el enlace a la pagina web">
+                                            <label for="pagina">Sitio Web de la Clinica</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Ingrese el numero de contacto">
+                                            <label for="telefono">Telefono de la clinica</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="calle" name="calle">
+                                            <label for="calle">Calle</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="colonia" name="colonia">
+                                            <label for="colonia">Colonia</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control" id="exterior" name="exterior">
+                                            <label for="exterior">Numero exterior</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control" id="interior" name="interior">
+                                            <label for="Interior">Numero interior</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="estado" name="estado">
+                                            <label for="estado">Estado</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="municipio" name="municipio">
+                                            <label for="municipio">Municipio / Alcaldia</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control" id="codigo_postal" name="codigo_postal">
+                                            <label for="codigo_postal">Codigo Postal</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <label for="domicilio">Hace visitas a domicilio?</label>
+                                            <input type="checkbox" class="form-check-input" id="domicilio" name="domicilio">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="time" class="form-control" id="hora_in" name="hora_in">
+                                            <label for="hora_in">Indique la hora de inicio de atencion</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="time" class="form-control" id="hora_out" name="hora_out">
+                                            <label for="hora_out">Indique la hora de fin de atencion</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-info w-100 py-3" type="submit">Sugerir Clinica</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contact End -->
+
+
+        <!-- Footer Start -->
+        
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">PetCare</a>, Todos los derechos reservados. 
+					<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+					Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                    <br>Distributed By: <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+           
+        <!-- Footer End -->
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <script>
+        function filtrarEspecies(objeto){
+            let valor = JSON.parse(decodeURIComponent(objeto))
+            let selected = document.getElementById('tipo').value
+    
+            const especies = document.getElementById('especie')
+            especies.innerHTML = '<option disabled selected>--Seleccione la Especie--</option>'
+    
+            valor.forEach((v)=>{
+                if(v.id_tipo == selected){
+                    const newNode = document.createElement('option')
+                    newNode.setAttribute('value', v.id)
+                    const textNode = document.createTextNode(v.especie)
+                    newNode.appendChild(textNode)
+                    especies.appendChild(newNode)
+                }
+            })
+        }
+    </script>
+
+    <%- include('partials/linksjs.ejs') %> 
+    <%- include('partials/cierrebody.ejs') %> 

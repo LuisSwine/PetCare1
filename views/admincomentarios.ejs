@@ -1,0 +1,115 @@
+<%- include('partials/init-doc.ejs', {tituloPagina: 'Comentarios'}) %> 
+
+<body>
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <%- include('partials/spinner.ejs') %> 
+        <!-- Spinner End -->
+
+        <!-- Header Start -->
+        <%- include('partials/main-header.ejs', {active: 7, usuario: usuario}) %> 
+        <!-- Header End -->
+
+
+        <!-- Team Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title text-center text-info text-uppercase">PetCare</h6>
+                    <h1 class="mb-5">Comentarios <span class="text-info text-uppercase">de la Comunidad</span></h1>
+                </div>
+                <div class="row g-4">
+                    <div class="card">
+                        <div class="card-title">
+                            <h4>Comentarios</h4>
+                        </div>
+                        <div class="bootstrap-data-table-panel">
+                            <div class="table-responsive">
+                                <table id="row-select" class="display table table-borderd table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Usuario</th>
+                                            <th>Veterinario</th>
+                                            <th>Valoracion</th>
+                                            <th>Titulo</th>
+                                            <th>Mensaje</th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% comentarios.forEach((comentario)=>{ %> 
+                                            <tr>
+                                                <td><%= comentario.nombre_usuario %> <%= comentario.apellido_usuario %></td>
+                                                <td><%= comentario.nombre_veterinario %> <%= comentario.apellido_veterinario %></td>
+                                                <td><%= comentario.valoracion.toFixed(2) %></td>
+                                                <td><%= comentario.titulo %></td>
+                                                <td><%= comentario.mensaje %></td>
+                                                <td>
+                                                    <div class="button-list">
+                                                        <div class="btn-group btn-group-justified">
+                                                            <button onclick="confirmDelete('<%= comentario.id %>')" class="btn btn-info btn-sm" title="Eliminar Comentario"><i class="fa fa-trash"></i></button>
+                                                        </div>
+                                                    </div></td>
+                                            </tr>
+                                        <% }) %> 
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Usuario</th>
+                                            <th>Veterinario</th>
+                                            <th>Valoracion</th>
+                                            <th>Titulo</th>
+                                            <th>Mensaje</th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Team End -->
+
+
+        <!-- Footer Start -->
+        
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">PetCare</a>, Todos los derechos reservados. 
+					<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+					Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                    <br>Distributed By: <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+           
+        <!-- Footer End -->
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <script>
+        function confirmDelete(comentario){
+            Swal.fire({
+                title: '¿ESTAS SEGURO?',
+                text: `Se borrara el comentario ${comentario}, esta accion es irreversible`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    const ruta = `/deletecomentario?comentario=${comentario}`
+                    window.location = ruta
+                }
+            })
+        }
+    </script>
+
+    <%- include('partials/linksjs.ejs') %> 
+    <%- include('partials/cierrebody.ejs') %> 

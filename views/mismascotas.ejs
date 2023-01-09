@@ -1,0 +1,98 @@
+<%- include('partials/init-doc.ejs', {tituloPagina: 'Mis Mascotas'}) %> 
+
+<body>
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <%- include('partials/spinner.ejs') %> 
+        <!-- Spinner End -->
+
+        <!-- Header Start -->
+        <%- include('partials/main-header.ejs', {active: 2, usuario: usuario}) %> 
+        <!-- Header End -->
+
+
+        <!-- Team Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title text-center text-info text-uppercase">PetCare</h6>
+                    <h1 class="mb-5">Mis <span class="text-info text-uppercase">Mascotas</span></h1>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s" onclick="window.open('/nuevamascota', '_self')" style="cursor: pointer;">
+                        <div class="rounded shadow overflow-hidden">
+                            <div class="position-relative">
+                                <img class="img-fluid" src="img/mascotas.png" alt="">
+                                <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                                    <a class="btn btn-square btn-success mx-1" href="/nuevamascota"><i class="fa fa-plus"></i></a>
+                                </div>
+                            </div>
+                            <div class="text-center p-4 mt-3">
+                                <h5 class="fw-bold mb-0">Nuevo Amigo</h5>
+                                <small>Agregar nueva mascota</small>
+                            </div>
+                        </div>
+                    </div>
+                    <% mascotas.forEach((mascota)=>{ %> 
+                        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="rounded shadow overflow-hidden">
+                                <div class="position-relative">
+                                    <img class="img-fluid" src="img/mascotas.png" alt="">
+                                    <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                                        <a class="btn btn-square btn-info mx-1" href="/perfilmascota?mascota=<%= mascota.id %>"><i class="fa fa-dog"></i></a>
+                                        <a class="btn btn-square btn-danger mx-1" onclick="confirmDelete('<%= mascota.id %>', '<%= mascota.nombre %>', '<%= usuario.id %>')"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </div>
+                                <div class="text-center p-4 mt-3">
+                                    <h5 class="fw-bold mb-0"><%= mascota.nombre %></h5>
+                                    <small><%= mascota.especie %></small>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %> 
+                </div>
+            </div>
+        </div>
+        <!-- Team End -->
+
+
+        <!-- Footer Start -->
+        
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">PetCare</a>, Todos los derechos reservados. 
+					<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+					Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                    <br>Distributed By: <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+           
+        <!-- Footer End -->
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <script>
+        function confirmDelete(mascota, nombre, usuario){
+            Swal.fire({
+                title: '¿ESTAS SEGURO?',
+                text: `Se borrara el registro de ${nombre}, esta accion es irreversible`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    const ruta = `/deletemascota?mascota=${mascota}&usuario=${usuario}`
+                    window.location = ruta
+                }
+            })
+        }
+    </script>
+
+    <%- include('partials/linksjs.ejs') %> 
+    <%- include('partials/cierrebody.ejs') %> 
