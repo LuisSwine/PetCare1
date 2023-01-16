@@ -27,31 +27,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-title">
-                            <h4>Consultas Proximas</h4>
-                        </div>
-                        <div class="card-body">
-                            <ul class="timeline">
-                                <% consultasproximas.forEach((consulta)=>{%> 
-                                <li>
-                                    <div class="timeline-badge primary"><%= consulta.dia.toLocaleDateString('en-GB') %> - <%= consulta.hora %></div>
-                                    <div class="timeline-panel">
-                                        <div class="timeline-heading">
-                                            <h5 class="timeline-title"><%= consulta.mascota %></h5>
-                                        </div>
-                                        <div class="timeline-body">
-                                            <p><%= consulta.veterinario_nombre %> <%= consulta.veterinario_apellido %> - <%= consulta.clinica %></p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <%}) %>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /# card -->
-                </div>
             </div>
             <div class="col-lg-9">
                 <div class="card">
@@ -129,7 +104,6 @@
                                         <td>
                                             <div class="button-list">
                                                 <div class="btn-group btn-group-justified">
-                                                    <a href="/agendarcita?usuario=<%= usuario.id %>&clinica=<%= veterinario.id_clinica %>&veterinario=<%= veterinario.id_veterinario %>" class="btn btn-warning btn-sm" target="_self" title="Agendar una Cita"><i class="fa fa-calendar"></i></a>
                                                     <a href="/addcomment?veterinario=<%= veterinario.id_veterinario %>" class="btn btn-info btn-sm" target="_self" title="Dejar Comentario"><i class="fa fa-comment"></i></a>
                                                 </div>
                                             </div>
@@ -181,8 +155,7 @@
                                         <td>
                                             <div class="button-list">
                                                 <div class="btn-group btn-group-justified">
-                                                    <button onclick="reagendarCita('<%= usuario.id %>','<%= consulta.id %>','<%= consulta.id_veterinario %>','<%= consulta.id_clinica %>')" class="btn btn-info btn-sm" title="Reagendar Cita"><i class="fa fa-calendar"></i></button>
-                                                    <button onclick="confirmCancelar('<%= consulta.id %>', '<%= usuario.id %>')" class="btn btn-danger btn-sm" title="Cancelar Cita"><i class="fa fa-trash"></i></button>
+                                                    <button onclick="showInfo('<%= consulta.descripcion %>')" class="btn btn-info btn-sm" title="Mostrar descripcion"><i class="fa fa-info"></i></button>
                                                 </div>
                                             </div>
                                         </td>
@@ -316,40 +289,12 @@
                 }
             })
         }
-        function reagendarCita(usuario, consulta, veterinario, clinica){
+        function showInfo(descripcion){
             Swal.fire({
-                title: 'Reagendar la cita',
-                text: 'Ingrese los campos requeridos',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Actualizar',
-                html: 
-                    `<input type="time" id="hora" class="swal2-input">`+
-                    `<input type="date" id="fecha" class="swal2-input">`,
-                focusConfirm: false
-            }).then((result)=>{
-                if(result.isConfirmed){
-                    const hora = document.getElementById('hora').value;
-                    const fecha = document.getElementById('fecha').value;
-                    const ruta = `/reagendarcita?consulta=${consulta}&usuario=${usuario}&veterinario=${veterinario}&clinica=${clinica}&dia=${fecha}&hora=${hora}`
-                    window.location = ruta
-                }
-            })
-        }
-        function confirmCancelar(cita, usuario){
-            Swal.fire({
-                title: '¿ESTAS SEGURO?',
-                text: `Se cancelará la cita ${cita}, esta accion es irreversible`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, cancelar'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    const ruta = `/cancelarcita?cita=${cita}&usuario=${usuario}`
-                    window.location = ruta
-                }
+                title: 'Descripcion de la consulta',
+                text: descripcion,
+                icon: 'info',
+                showConfirmButton: true
             })
         }
     </script>

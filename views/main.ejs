@@ -128,13 +128,22 @@
                                 clinicas = JSON.parse(decodeURIComponent(clinicas))
 
                                 clinicas.forEach((clinica)=>{
+                                    let estrellas = ''
+                                    for(i = 0; i < parseInt(clinica.valoracion); i++){
+                                        estrellas = estrellas + '<small class="fa fa-star text-warning"></small>'
+                                    }
+                                    if((clinica.valoracion - parseInt(clinica.valoracion)) > 0){
+                                        estrellas = estrellas + '<small class="fa fa-star-half text-warning"></small>' 
+                                    } 
+
                                     let lat = parseFloat(clinica.latitud)
                                     let lon = parseFloat(clinica.longitud)
-                                    var marker = new L.marker([lat, lon]).addTo(map);
-                                    var popup = L.popup()
-                                        .setLatLng([lat, lon])
-                                        .setContent(clinica.calle + " " + clinica.exterior +" - "+ clinica.interior + ", " + clinica.colonia + ", " + clinica.cp +", "+ clinica.municipio +", " + clinica.estado)
-                                        .openOn(map);
+                                    const marker = new L.marker([lat, lon]).addTo(map).bindPopup(`
+                                        <h1>${clinica.nombre}</h1>
+                                        ${estrellas}
+                                        <p>${clinica.calle} ${clinica.exterior} - ${clinica.interior}, ${clinica.colonia}, ${clinica.cp}, ${clinica.municipio}, ${clinica.estado}</p>
+                                        <a href='/perfilclinica?clinica=${clinica.id}' class='btn btn-info w-100 py-3'> Ir a Pagina de clinica </a>
+                                    `);
                                 })
                             </script>    
                          

@@ -26,31 +26,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-title">
-                            <h4>Consultas</h4>
-                        </div>
-                        <div class="card-body">
-                            <ul class="timeline">
-                                <% consultasproximas.forEach((consulta)=>{%> 
-                                    <li>
-                                        <div class="timeline-badge primary"><%= consulta.dia.toLocaleDateString('en-GB') %> - <%= consulta.hora %></div>
-                                        <div class="timeline-panel">
-                                            <div class="timeline-heading">
-                                                <h5 class="timeline-title"><%= consulta.mascota %></h5>
-                                            </div>
-                                            <div class="timeline-body">
-                                                <p><%= consulta.veterinario_nombre %> <%= consulta.veterinario_apellido %> - <%= consulta.clinica %></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <%}) %>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /# card -->
-                </div>
             </div>
             <div class="col-lg-9">
                 <div class="card">
@@ -59,7 +34,7 @@
                     </div>
                     <div class="bootstrap-data-table-panel">
                         <div class="table-responsive">
-                            <table id="row-select2" class="display table table-borderd table-hover">
+                            <table id="row-select" class="display table table-borderd table-hover">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
@@ -81,7 +56,6 @@
                                             <td>
                                                 <div class="button-list">
                                                     <div class="btn-group btn-group-justified">
-                                                        <a href="/agendarcita?usuario=<%= usuario.id %>&clinica=<%= veterinario.id_clinica %>&veterinario=<%= veterinario.id_veterinario %>" class="btn btn-warning btn-sm" target="_self" title="Agendar una Cita"><i class="fa fa-calendar"></i></a>
                                                         <a href="/addcomment?veterinario=<%= veterinario.id_veterinario %>" class="btn btn-info btn-sm" target="_self" title="Dejar Comentario"><i class="fa fa-comment"></i></a>
                                                     </div>
                                                 </div>
@@ -95,6 +69,58 @@
                                         <th>Cedula</th>
                                         <th>Telefono</th>
                                         <th>Correo</th>
+                                        <th>Clinica</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">
+                        <h4>Consultas</h4>
+                    </div>
+                    <div class="bootstrap-data-table-panel">
+                        <div class="table-responsive">
+                            <table id="row-select2" class="display table table-borderd table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        <th>Mascota</th>
+                                        <th>Tipo</th>
+                                        <th>Clinica</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% consultas.forEach((consulta)=>{%> 
+                                    <tr>
+                                        <td><%= consulta.id %></td>
+                                        <td><%= consulta.dia.toLocaleDateString('en-GB') %></td>
+                                        <td><%= consulta.hora %></td>
+                                        <td><%= consulta.veterinario_nombre %> <%= consulta.veterinario_apellido %></td>
+                                        <td><%= consulta.tipo %></td>
+                                        <td><%= consulta.clinica %></td>
+                                        <td>
+                                            <div class="button-list">
+                                                <div class="btn-group btn-group-justified">
+                                                    <button onclick="showInfo('<%= consulta.descripcion %>')" class="btn btn-info btn-sm" title="Informacion de la Consulta"><i class="fa fa-info"></i></button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <%}) %>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        <th>Mascota</th>
+                                        <th>Tipo</th>
                                         <th>Clinica</th>
                                         <th>Opciones</th>
                                     </tr>
@@ -141,6 +167,14 @@
                     const ruta = `/actualizarNombreMascota?id=${folio}&nombre=${nombre}`
                     window.location = ruta
                 }
+            })
+        }
+        function showInfo(descripcion){
+            Swal.fire({
+                title: 'Descripcion de la consulta',
+                text: descripcion,
+                icon: 'info',
+                showConfirmButton: true
             })
         }
     </script>

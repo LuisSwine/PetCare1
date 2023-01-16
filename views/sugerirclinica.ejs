@@ -30,31 +30,31 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="url" class="form-control" id="pagina" name="pagina" placeholder="Ingrese el enlace a la pagina web">
+                                            <input type="url" class="form-control" id="pagina" name="pagina" placeholder="Ingrese el enlace a la pagina web" required>
                                             <label for="pagina">Sitio Web de la Clinica</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Ingrese el numero de contacto">
+                                            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Ingrese el numero de contacto" required>
                                             <label for="telefono">Telefono de la clinica</label>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="calle" name="calle">
+                                            <input type="text" class="form-control" id="calle" name="calle" required>
                                             <label for="calle">Calle</label>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="colonia" name="colonia">
+                                            <input type="text" class="form-control" id="colonia" name="colonia" required>
                                             <label for="colonia">Colonia</label>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-floating">
-                                            <input type="number" class="form-control" id="exterior" name="exterior">
+                                            <input type="number" class="form-control" id="exterior" name="exterior" required>
                                             <label for="exterior">Numero exterior</label>
                                         </div>
                                     </div>
@@ -66,38 +66,87 @@
                                     </div>
                                     <div class="col-md-5">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="estado" name="estado">
+                                            <input type="text" class="form-control" id="estado" name="estado" required>
                                             <label for="estado">Estado</label>
                                         </div>
                                     </div>
                                     <div class="col-md-5">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="municipio" name="municipio">
+                                            <input type="text" class="form-control" id="municipio" name="municipio" required>
                                             <label for="municipio">Municipio / Alcaldia</label>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-floating">
-                                            <input type="number" class="form-control" id="codigo_postal" name="codigo_postal">
+                                            <input type="number" class="form-control" id="codigo_postal" name="codigo_postal" required>
                                             <label for="codigo_postal">Codigo Postal</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="time" class="form-control" id="hora_in" name="hora_in" required>
+                                            <label for="hora_in">Indique la hora de inicio de atencion</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="time" class="form-control" id="hora_out" name="hora_out" required>
+                                            <label for="hora_out">Indique la hora de fin de atencion</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="latitud" name="latitud" required>
+                                            <label for="hora_out">Latitud</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="longitud" name="longitud" required>
+                                            <label for="hora_out">Longitud</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h4>
+                                            Por favor mueva el pin a la ubicacion de la clinica para obtener la latitud y longitud
+                                        </h4>
+                                        <div id="map" style="height: 360px;">
+                                            <% if(usuario.id){%>
+                                                <script>
+                                                    // you want to get it of the window global
+                                                    let marker
+                                                    let latitud = document.getElementById('latitud')
+                                                    let longitud = document.getElementById('longitud')
+                                                    var map = L.map('map').setView([19.3906594, -99.3084251], 10);
+                                                    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                                        maxZoom: 19,
+                                                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                                                    }).addTo(map);
+
+                                                    marker = new L.marker([19.3906594, -99.3084251],{
+                                                        draggable: true,
+                                                        autoPan: true
+                                                    }).addTo(map)
+
+                                                    marker.on('moveend', (e)=>{
+                                                        marker = e.target
+
+                                                        const posicion = marker.getLatLng()
+                                                        console.log(posicion)
+                                                        map.panTo(new L.LatLng(posicion.lat, posicion.lng))
+
+                                                        latitud.setAttribute('value', posicion.lat)
+                                                        longitud.setAttribute('value', posicion.lng)
+                                                    })
+                                                    
+                                                </script>
+                                            <%} %> 
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-floating">
                                             <label for="domicilio">Hace visitas a domicilio?</label>
                                             <input type="checkbox" class="form-check-input" id="domicilio" name="domicilio">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="time" class="form-control" id="hora_in" name="hora_in">
-                                            <label for="hora_in">Indique la hora de inicio de atencion</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="time" class="form-control" id="hora_out" name="hora_out">
-                                            <label for="hora_out">Indique la hora de fin de atencion</label>
                                         </div>
                                     </div>
                                     <div class="col-12">

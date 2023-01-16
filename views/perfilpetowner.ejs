@@ -26,31 +26,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-title">
-                            <h4>Consultas Proximas</h4>
-                        </div>
-                        <div class="card-body">
-                            <ul class="timeline">
-                                <% consultasproximas.forEach((consulta)=>{%> 
-                                <li>
-                                    <div class="timeline-badge primary"><%= consulta.dia.toLocaleDateString('en-GB') %> - <%= consulta.hora %></div>
-                                    <div class="timeline-panel">
-                                        <div class="timeline-heading">
-                                            <h5 class="timeline-title"><%= consulta.mascota %></h5>
-                                        </div>
-                                        <div class="timeline-body">
-                                            <p><%= consulta.veterinario_nombre %> <%= consulta.veterinario_apellido %> - <%= consulta.clinica %></p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <%}) %>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /# card -->
-                </div>
+                
             </div>
             <div class="col-lg-9">
                 <div class="card">

@@ -1,4 +1,4 @@
-<%- include('partials/init-doc.ejs', {tituloPagina: 'Agendar Cita'}) %> 
+<%- include('partials/init-doc.ejs', {tituloPagina: 'Registrar Consulta'}) %> 
 
 <body>
     <div class="container-xxl bg-white p-0">
@@ -14,7 +14,7 @@
         <div class="container-xxl py-5">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h6 class="section-title text-center text-dark text-uppercase">Agendar una nueva cita</h6>
+                    <h6 class="section-title text-center text-dark text-uppercase">Registrar una nueva consulta</h6>
                 </div>
                 <div class="row g-4">
                     <div class="col-md-12">
@@ -24,8 +24,19 @@
                                     <div class="col-md-12">
                                         <div class="form-floating">
                                             <input type="number" class="form-control" id="id_usuario" name="id_usuario" value="<%= usuario.id %>" hidden required>
+                                            <input type="number" class="form-control" id="veterinario" name="veterinario" value="<%= id_vet[0].id %>" hidden>
                                             <input type="text" class="form-control" id="nombre" name="nombre" value="<%= usuario.nombre %>" readonly required>
-                                            <label for="nombre">Nombre</label>
+                                            <label for="nombre">Nombre Veterinario</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <select class="form-control" id="petowner" name="petowner" onchange="filtrarMascotas('<%= encodeURIComponent(JSON.stringify(mascotas)) %>')" required>
+                                                <option value="0" selected disabled>--Seleccione al dueño (cliente)--</option>
+                                                <% petowners.forEach((petowner)=>{ %> 
+                                                    <option value="<%= petowner.id %>"><%= petowner.nombre %> <%= petowner.apellido %></option>
+                                                <% }) %> 
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -38,27 +49,16 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-floating">
-                                            <input type="number" class="form-control" id="clinica" name="clinica" <% if(clinica){%>value="<%= clinica %>"<%} %> hidden>
-                                            <select class="form-control" id="veterinario" name="veterinario" required onchange="seleccionarClinica('<%= encodeURIComponent(JSON.stringify(veterinarios)) %>')">
-                                                <option value="0" selected disabled>--Seleccione el veterinario que quiere que lo atienda--</option>
-                                                <% veterinarios.forEach((veterinario)=>{ %> 
-                                                    <option value="<%= veterinario.id %>" <% if(veterinario_s && veterinario_s == veterinario.id){%>selected<%} %> ><%= veterinario.nombre %> <%= veterinario.apellido %> - <%= veterinario.clinica %></option>
-                                                <% }) %> 
-                                            </select>
-                                        </div>
-                                    </div>
                                     <div class="col-md-4">
                                         <div class="form-floating">
                                             <input type="time" class="form-control" id="hora" name="hora">
-                                            <label for="hora">Indique la hora de su preferencia</label>
+                                            <label for="hora">Indique la hora/label>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-floating">
-                                            <input type="date" class="form-control" id="fecha" name="fecha">
-                                            <label for="fecha">Seleccione la fecha de su preferencia</label>
+                                            <input type="date" class="form-control" id="fecha" name="fecha" required>
+                                            <label for="fecha">Seleccione la fecha</label>
                                         </div>
                                     </div><div class="col-md-4">
                                         <div class="form-floating">
@@ -73,11 +73,11 @@
                                     <div class="col-md-12">
                                         <div class="form-floating">
                                             <textarea class="form-control" id="descripcion" name="descripcion" rows="5" cols="50"></textarea>
-                                            <label for="descripcion">Realice una descripcion del motivo de la consulta</label>
+                                            <label for="descripcion">Registre los detalles de la consulta</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-info w-100 py-3" type="submit">Agendar Cita</button>
+                                        <button class="btn btn-info w-100 py-3" type="submit">Registrar Consulta</button>
                                     </div>
                                 </div>
                             </form>
@@ -109,15 +109,20 @@
     </div>
 
     <script>
-        function seleccionarClinica(objeto){
-            let veterinarios = JSON.parse(decodeURIComponent(objeto))
-            let selected = document.getElementById('veterinario').value
+        function filtrarMascotas(objeto){
+            let mascotas = JSON.parse(decodeURIComponent(objeto))
+            let selected = document.getElementById('petowner').value
     
-            const clinica = document.getElementById('clinica')
+            const mascotaElement = document.getElementById('mascota')
+            mascotaElement.innerHTML = ''
     
-            veterinarios.forEach((veterinario)=>{
-                if(veterinario.id == selected){
-                    clinica.setAttribute('value', veterinario.id_clinica)
+            mascotas.forEach((mascota)=>{
+                if(mascota.id_owner == selected){
+                    const tag = document.createElement('option')
+                    const value = document.createTextNode(mascota.nombre)
+                    tag.appendChild(value)
+                    tag.setAttribute('value', mascota.id)
+                    mascotaElement.appendChild(tag)
                 }
             })
         }

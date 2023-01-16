@@ -90,6 +90,21 @@ exports.selectMascotasAdmin = async(req, res, next)=>{
         return next()
     }
 }
+exports.selectMascotasConsultas = async(req, res, next)=>{
+    try {
+        conexion.query('SELECT * FROM mascotas_view001', (error, fila)=>{
+            if(error){
+                throw error
+            }else{
+                req.mascotas = fila
+                return next()
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        return next()
+    }
+}
 exports.selectMascota = async(req, res, next)=>{
     try {
         let mascota = req.query.mascota

@@ -14,71 +14,21 @@ exports.agendarCita = async(req, res, next)=>{
             tipo_consulta: req.body.tipo, 
             descripcion: req.body.descripcion
         }
-        let clinica = req.body.clinica
-        let id_usuario = req.body.id_usuario
-
-        //Consultamos los horarios de la clinica
-        conexion.query('SELECT hora_entrada, hora_salida FROM cat004_clinica WHERE id = ?', [clinica], (error, fila)=>{
-            if(error){
-                throw error
+        //Ahora si agendamos la consulta
+        conexion.query('INSERT INTO op001_consultas SET ?', consulta, (error3, fila3)=>{
+            if(error3){
+                throw error3
             }else{
-                hora_in = fila[0].hora_entrada
-                hora_out = fila[0].hora_salida
-
-                //Validamos que el horario elegido este dentro de los horarios de la clinica
-                if(consulta.hora < hora_in || consulta.hora > hora_out){
-                    let ruta = `agendarcita?usuario=${id_usuario}`
-                    res.render('login', {
-                        alert: true,
-                        alertTitle: 'ERROR',
-                        alertMessage: 'Hora seleccionada fuera del horario de servicio de la clinica',
-                        alertIcon: 'error',
-                        showConfirmButton: true,
-                        timer: 8000,
-                        ruta: ruta 
-                    })
-                    return next()
-                }else{
-                    //Validamos que el horario este disponible
-                    conexion.query('SELECT id FROM op001_consultas WHERE id_veterinario = ? AND dia = ? AND hora = ?', [consulta.id_veterinario, consulta.dia, consulta.hora], (error2, fila2)=>{
-                        if(error2){
-                            throw error2
-                        }else{
-                            if(fila2.length === 0){
-                                //Ahora si agendamos la consulta
-                                conexion.query('INSERT INTO op001_consultas SET ?', consulta, (error3, fila3)=>{
-                                    if(error3){
-                                        throw error3
-                                    }else{
-                                        res.render('login', {
-                                            alert: true,
-                                            alertTitle: 'CITA GENERADA CON EXITO',
-                                            alertMessage: 'Tu cita se ha registrado con exito, puedes consultarla en tu cuenta',
-                                            alertIcon: 'success',
-                                            showConfirmButton: true,
-                                            timer: 8000,
-                                            ruta: 'dashboard' 
-                                        })
-                                        return next()
-                                    }
-                                })
-                            }else{
-                                let ruta = `agendarcita?usuario=${id_usuario}`
-                                res.render('login', {
-                                    alert: true,
-                                    alertTitle: 'ERROR',
-                                    alertMessage: 'Hora seleccionada no disponible, por favor considere 30 minutos mas o menos tarde',
-                                    alertIcon: 'error',
-                                    showConfirmButton: true,
-                                    timer: 8000,
-                                    ruta: ruta 
-                                })
-                                return next()
-                            }
-
-                        }
-                    })
-                }
+                res.render('login', {
+                    alert: true,
+                    alertTitle: 'CONSULTA REGISTRADA CON EXITO',
+                    alertMessage: 'La consulta se ha registrado con exito',
+                    alertIcon: 'success',
+                    showConfirmButton: true,
+                    timer: 8000,
+                    ruta: 'dashboard' 
+                })
+                return next()
             }
         })
     } catch (error) {
@@ -307,6 +257,22 @@ exports.cancelarCitaVet = async(req, res, next)=>{
                     timer: 8000,
                     ruta: ruta 
                 })
+                return next()
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        return next()
+    }
+}
+exports.consultasMascota = async(req, res, next)=>{
+    try {
+        let mascota = req.query.mascota
+        conexion.query('SELECT * FROM consultas_view001 WHERE id_mascota = ?', [mascota], (error, fila)=>{
+            if(error){
+                throw error
+            }else{
+                req.consultas = fila
                 return next()
             }
         })
