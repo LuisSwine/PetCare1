@@ -49,8 +49,8 @@ router.get('/nuevamascota', usuariosController.isAuthenticated, mascotasControll
     res.render('agregarmascota', {usuario: req.user, alert: false, tipos_mascota: req.tipos_mascota, especies: req.especies})
 })
 router.post('/nuevamascota', mascotasController.nuevaMascota)
-router.get('/perfilmascota', usuariosController.isAuthenticated, mascotasController.selectMascota, consultasController.selectConsultasProximasPet, veterinariosController.selectVeterinariosPet, (req, res)=>{
-    res.render('perfilmascota', {usuario: req.user, mascota: req.mascota, consultasproximas: req.consultasproximas, veterinarios: req.veterinarios})
+router.get('/perfilmascota', usuariosController.isAuthenticated, mascotasController.selectMascota, consultasController.consultasMascota, veterinariosController.selectVeterinariosPet, (req, res)=>{
+    res.render('perfilmascota', {usuario: req.user, mascota: req.mascota, consultas: req.consultas, veterinarios: req.veterinarios})
 })
 router.get('/actualizarNombreMascota', mascotasController.editNombreMascota)
 router.get('/deletemascota', mascotasController.deleteMascota)
@@ -81,8 +81,8 @@ router.get('/sugerencias', usuariosController.isAuthenticated, clinicasControlle
 })
 router.get('/aceptarsugerencia', clinicasController.aceptarSugerencia)
 router.get('/descartarsugerencia', clinicasController.descartarSugerencia)
-router.get('/agendarcita', usuariosController.isAuthenticated, mascotasController.selectMascotas, veterinariosController.selectVeterinariosConsulta, consultasController.selectTiposConsultas, (req, res)=>{
-    res.render('agendarcita', {usuario: req.user, mascotas: req.mascotas, veterinarios: req.veterinarios, tipos: req.tipos_consultas, clinica: req.query.clinica, veterinario_s: req.query.veterinario})
+router.get('/agendarcita', usuariosController.isAuthenticated, usuariosController.selectPetOwners, mascotasController.selectMascotasConsultas, consultasController.selectTiposConsultas, veterinariosController.getidfromusers, (req, res)=>{
+    res.render('agendarcita', {usuario: req.user, petowners: req.petowners, mascotas: req.mascotas, tipos: req.tipos_consultas, id_vet: req.id_vet})
 })
 router.post('/agendarcita', consultasController.agendarCita)
 router.get('/reagendarcita', consultasController.reagendarCita)

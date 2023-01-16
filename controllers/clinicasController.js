@@ -28,6 +28,8 @@ exports.sugerirClinica = async(req, res, next)=>{
             interior: req.body.interior,
             municipio: req.body.municipio,
             estado: req.body.estado,
+            latitud: req.body.latitud,
+            longitud: req.body.longitud,
             codigo_postal: req.body.codigo_postal
         }
         let sugerencia = {
@@ -201,6 +203,29 @@ exports.seleccionarClinicaVeterinario = async(req, res, next)=>{
     try {
         let veterinario = req.query.veterinario
         conexion.query('SELECT id_clinica FROM cat003_veterinario WHERE id = ?', [veterinario], (error, fila)=>{
+            if(error){
+                throw error
+            }else{
+                let id_clinica = fila[0].id_clinica
+                conexion.query('SELECT * FROM clinicas_view001 WHERE id = ?', [id_clinica], (error2, fila2)=>{
+                    if(error2){
+                        throw error2
+                    }else{
+                        req.clinica = fila2
+                        return next()
+                    }
+                })
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        return next
+    }
+}
+exports.seleccionarClinicaVeterinarioConsulta = async(req, res, next)=>{
+    try {
+        let veterinario = req.query.usuario
+        conexion.query('SELECT id_clinica FROM cat003_veterinario WHERE id_usuario = ?', [veterinario], (error, fila)=>{
             if(error){
                 throw error
             }else{

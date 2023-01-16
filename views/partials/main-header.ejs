@@ -30,8 +30,8 @@
                         <a href="/clinicas" class="nav-item nav-link <% if(active == 4){%> active <% } %>">Clinicas</a>
                         <a href="/logout" class="nav-item nav-link">Cerrar Sesion</a>
                     </div>
-                    <% if(usuario.tipo_usuario == 3){%>
-                        <a href="/agendarcita?usuario=<%= usuario.id %>" class="btn btn-info rounded-0 py-4 px-md-5 d-none d-lg-block">Agendar Cita<i class="fa fa-arrow-right ms-3"></i></a>
+                    <% if(usuario.tipo_usuario == 2){%>
+                        <a href="/agendarcita?usuario=<%= usuario.id %>" class="btn btn-info rounded-0 py-4 px-md-5 d-none d-lg-block">Registrar Consulta<i class="fa fa-arrow-right ms-3"></i></a>
                     <%} %> 
                 </div>
             </nav>

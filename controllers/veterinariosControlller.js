@@ -197,3 +197,19 @@ exports.selectConsultas = async(req, res, next)=>{
         return next()
     }
 }
+exports.getidfromusers = async(req, res, next)=>{
+    try {
+        let veterinario =  req.query.usuario
+        conexion.query('SELECT id from cat003_veterinario WHERE id_usuario = ?', [veterinario], (error, fila)=>{
+            if(error){
+                throw error
+            }else{
+                req.id_vet = fila
+                return next()
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        return next()
+    }
+}
